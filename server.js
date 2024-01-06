@@ -3,6 +3,10 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { config } from 'dotenv';
 import router from './router/route.js';
+
+/** import database connection file**/
+import connect from './database/connect.js';
+
 const app = express();
 
 /** app middlewares */
@@ -14,9 +18,9 @@ config();
 /** appliation port */
 const port = process.env.PORT || 8080;
 
-app.use('/api', router); // apis
+connect();
 /** routes */
-
+app.use('/api', router); // apis
 app.get('/', (req, res) => {
   try {
     res.json('Get Request');
@@ -26,7 +30,16 @@ app.get('/', (req, res) => {
 });
 
 /** start server only when we have valid connection */
-
-app.listen(port, () => {
-  console.log(`Server connected to http://localhost:${port}`);
-});
+connect()
+  .then(() => {
+    try {
+      app.listen(port, () => {
+        console.log(`Server connected to http://localhost:${port}`);
+      });
+    } catch (error) {
+      console.log('Cannot connect to the server!!');
+    }
+  })
+  .catch((error) => {
+    console.log('Invalid database Connection!!');
+  });
