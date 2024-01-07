@@ -3,8 +3,6 @@ const router = Router();
 // import controllers
 import * as controller from '../controller/controller.js';
 /** Questions Route API**/
-router.get('/questions', controller.getQuestions);
-router.post('/questions', controller.insertQuestions);
 
 router
   .route('/questions')

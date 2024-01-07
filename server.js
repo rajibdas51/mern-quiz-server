@@ -23,7 +23,7 @@ connect();
 app.use('/api', router); // apis
 app.get('/', (req, res) => {
   try {
-    res.json('Get Request');
+    res.json('Server is up and running!!');
   } catch (error) {
     res.json(error);
   }
